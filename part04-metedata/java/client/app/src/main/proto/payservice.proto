@@ -1,0 +1,18 @@
+syntax = "proto3";//标识 proto版本 建议使用proto3
+package payservice;//proto包名 避免命名冲突，也可以作为引入其他proto文件时使用
+option java_package = "com.example.payservice" ;//生成的类将带有此包名，不指定则使用package
+option cc_generic_services = true;
+option go_package = "./pb";
+option java_outer_classname = "PayServicePbEntity";
+
+message payOrderReq{
+  string orderId = 1;
+}
+message payOrderRes{
+  int32 retCode = 1;
+  string retMsg = 2;
+}
+
+service PayService {
+  rpc payOrder(payOrderReq) returns (payOrderRes);
+}
