@@ -1,0 +1,54 @@
+syntax = "proto3";//标识 proto版本 建议使用proto3
+package userinfoservice;//proto包名 避免命名冲突，也可以作为引入其他proto文件时使用
+option java_package = "com.example.userinfoservice" ;//生成的类将带有此包名，不指定则使用package
+option cc_generic_services = true;
+option go_package = "./pb";
+option java_outer_classname = "UserInfoEntity";
+
+message GetUserInfoReq{
+  string id = 1;
+}
+message GetUserInfoRes{
+  string id = 1;
+  string name = 2;
+  int32 age = 3;
+}
+
+message ReportUserBehaviorReq{
+  string id = 1;
+  string behavior = 2;
+}
+
+message ReportUserBehaviorRes{
+  int32 retCode = 1;
+  string retMsg = 2;
+  int64 receivedCount = 3;
+}
+
+message SupplyUserChangeInfoReq{
+  string id = 1;
+}
+
+message SupplyUserChangeInfoRes{
+  string id = 1;
+  string loc = 2;
+  string temperature = 3;
+}
+
+message ExchangeUserInfoReq{
+  string id = 1;
+  double lng = 2;
+  double lat = 3;
+}
+
+message ExchangeUserInfoRes{
+  string id = 1;
+  string loc = 2;
+}
+
+service UserInfoService {
+  rpc getUserInfo(GetUserInfoReq) returns (GetUserInfoRes);
+  rpc reportUserBehavior(stream ReportUserBehaviorReq) returns (ReportUserBehaviorRes);
+  rpc supplyUserChangeInfo(SupplyUserChangeInfoReq) returns (stream SupplyUserChangeInfoRes);
+  rpc exchangeUserInfo(stream ExchangeUserInfoReq) returns (stream ExchangeUserInfoRes);
+}

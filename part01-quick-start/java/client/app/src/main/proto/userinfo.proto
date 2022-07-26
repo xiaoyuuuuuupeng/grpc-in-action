@@ -1,0 +1,18 @@
+syntax = "proto3";//标识 proto版本 建议使用proto3
+package userinfoservice;//proto包名 避免命名冲突，也可以作为引入其他proto文件时使用
+option java_package = "com.example.userinfoservice" ;//生成的类将带有此包名，不指定则使用package
+option cc_generic_services = true;
+option go_package = "./pb";
+
+message GetUserInfoReq{
+  string id = 1;
+}
+message GetUserInfoRes{
+  string id = 1;
+  string name = 2;
+  int32 age = 3;
+}
+
+service UserInfoService {
+  rpc getUserInfo(GetUserInfoReq) returns (GetUserInfoRes);
+}

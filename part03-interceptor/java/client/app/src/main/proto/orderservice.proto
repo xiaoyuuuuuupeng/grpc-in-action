@@ -1,0 +1,24 @@
+syntax = "proto3";//标识 proto版本 建议使用proto3
+package orderservice;//proto包名 避免命名冲突，也可以作为引入其他proto文件时使用
+option java_package = "com.example.orderservice" ;//生成的类将带有此包名，不指定则使用package
+option cc_generic_services = true;
+option go_package = "./pb";
+option java_outer_classname = "OrderPbEntity";
+
+message GetOrderListReq{
+  string userId = 1;
+}
+message GetOrderListRes{
+  repeated string orderIds = 1;
+}
+
+message SearchOrderListReq{
+  string orderName = 1;
+}
+message SearchOrderListRes{
+  repeated string orderIds = 1;
+}
+
+service OrderService {
+  rpc getOrderList(GetOrderListReq) returns (GetOrderListRes);
+}
