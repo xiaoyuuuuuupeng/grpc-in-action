@@ -15,7 +15,7 @@ public class App {
                 .usePlaintext()
                 .build();
         Metadata metadata = new Metadata();
-        metadata.put( Metadata.Key.of("token",Metadata.ASCII_STRING_MARSHALLER), UUID.randomUUID().toString().replaceAll("-",""));
+        metadata.put(Metadata.Key.of("token",Metadata.ASCII_STRING_MARSHALLER), UUID.randomUUID().toString().replaceAll("-",""));
         Channel headChannel = ClientInterceptors.intercept(channel, MetadataUtils.newAttachHeadersInterceptor(metadata));
         PayServiceGrpc.PayServiceBlockingStub payServiceBlockingStub = PayServiceGrpc.newBlockingStub(headChannel);
         PayServicePbEntity.payOrderRes res = payServiceBlockingStub.payOrder(PayServicePbEntity.payOrderReq.newBuilder().setOrderId("order_1")
