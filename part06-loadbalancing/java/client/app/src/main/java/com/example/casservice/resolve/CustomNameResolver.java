@@ -1,5 +1,7 @@
+
 package com.example.casservice.resolve;
 
+import com.google.common.collect.Lists;
 import io.grpc.EquivalentAddressGroup;
 import io.grpc.NameResolver;
 
@@ -9,19 +11,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.grpc.Attributes;
+
+
 public class CustomNameResolver extends NameResolver {
-    private final String authority;
+
+    private final String path;
 
     private Listener2 listener;
 
 
-    public CustomNameResolver(String authority) {
-        this.authority = authority;
+    public CustomNameResolver(String path) {
+        this.path = path;
     }
 
     @Override
     public String getServiceAuthority() {
-        return this.authority;
+        return this.path;
     }
 
     @Override
@@ -34,18 +40,21 @@ public class CustomNameResolver extends NameResolver {
         this.resolve();
     }
 
-    @Override
-    public void refresh() {
-        this.resolve();
-    }
+
+
     private void resolve() {
-        List<SocketAddress> socketAddressList = getAddressList(authority).stream()
+        List<SocketAddress> socketAddressList = getAddressList(path).stream()
                 .map(this::toSocketAddress)
                 .collect(Collectors.toList());
-        EquivalentAddressGroup equivalentAddressGroup = new EquivalentAddressGroup(socketAddressList);
 
+        List<EquivalentAddressGroup> equivalentAddressGroups = Lists.newArrayList();
+        for (SocketAddress socketAddress : socketAddressList) {
+            EquivalentAddressGroup equivalentAddressGroup = new EquivalentAddressGroup(socketAddress);
+            equivalentAddressGroups.add(equivalentAddressGroup);
+        }
         ResolutionResult resolutionResult = ResolutionResult.newBuilder()
-                .setAddresses(Arrays.asList(equivalentAddressGroup))
+                .setAddresses(equivalentAddressGroups)
+                .setAttributes(Attributes.EMPTY)
                 .build();
 
         this.listener.onResult(resolutionResult);
@@ -56,7 +65,8 @@ public class CustomNameResolver extends NameResolver {
     }
 
 
-    private List<InetSocketAddress> getAddressList(String authority) {
+    private List<InetSocketAddress> getAddressList(String path) {
+        System.out.println("path:"+path);
         InetSocketAddress inetSocketAddress = new InetSocketAddress("localhost", 10084);
         InetSocketAddress inetSocketAddress2 = new InetSocketAddress("localhost", 10085);
         return Arrays.asList(inetSocketAddress, inetSocketAddress2);

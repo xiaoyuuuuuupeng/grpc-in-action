@@ -1,0 +1,19 @@
+syntax = "proto3";//标识 proto版本 建议使用proto3
+package casservice;//proto包名 避免命名冲突，也可以作为引入其他proto文件时使用
+option java_package = "com.example.casservice" ;//生成的类将带有此包名，不指定则使用package
+option cc_generic_services = true;
+option go_package = "./pb";
+option java_outer_classname = "CasServicePbEntity";
+
+message CasLoginReq{
+  string userName = 1;
+  string password = 2;
+}
+message CasLoginRes{
+   string uid = 1;
+   string sex = 2;
+}
+
+service CasService {
+  rpc casLogin(CasLoginReq) returns (CasLoginRes);
+}
