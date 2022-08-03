@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.17.3
-// source: casservice.proto
+// source: easyresponse.proto
 
 package pb
 
@@ -101,5 +101,5 @@ var CasService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "casservice.proto",
+	Metadata: "easyresponse.proto",
 }
