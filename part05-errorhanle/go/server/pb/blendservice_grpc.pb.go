@@ -35,7 +35,7 @@ func NewBlendServiceClient(cc grpc.ClientConnInterface) BlendServiceClient {
 
 func (c *blendServiceClient) Blend(ctx context.Context, in *BlendReq, opts ...grpc.CallOption) (*BlendRes, error) {
 	out := new(BlendRes)
-	err := c.cc.Invoke(ctx, "/payservice.BlendService/blend", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/blendservice.BlendService/blend", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func _BlendService_Blend_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/payservice.BlendService/blend",
+		FullMethod: "/blendservice.BlendService/blend",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BlendServiceServer).Blend(ctx, req.(*BlendReq))
@@ -92,7 +92,7 @@ func _BlendService_Blend_Handler(srv interface{}, ctx context.Context, dec func(
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var BlendService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "payservice.BlendService",
+	ServiceName: "blendservice.BlendService",
 	HandlerType: (*BlendServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
